@@ -1,0 +1,12 @@
+resource_types    :
+  - name          : pull-request
+    type          : docker-image
+    source        :
+      repository  : jtarchie/pr
+
+resources:
+  - name: super-app
+    type: pull-request
+    source:
+      repo: ds-hellofresh/concourse-tutorial
+      access_token: {{ github_token }}
