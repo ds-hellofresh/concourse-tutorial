@@ -12,15 +12,15 @@ jobs:
       trigger: true
     - aggregate:
       - task: linting
-        file: tutorial/scenario.1/1-list/tasks/linting.yml
+        file: super-app/tutorial/scenario.1/1-list/tasks/linting.yml
       - task: unit
-        file: tutorial/scenario.1/1-list/tasks/unit.yml
+        file: super-app/tutorial/scenario.1/1-list/tasks/unit.yml
   - name: building
     plan:
     - get: super-app
       trigger: true
       passed: [ "test" ]
     - task: build
-      file: tutorial/scenario.1/1-list/tasks/build.yml
+      file: super-app/tutorial/scenario.1/1-list/tasks/build.yml
     - task: integeration test
-      file: tutorial/scenario.1/1-list/tasks/int-test.yml
+      file: super-app/tutorial/scenario.1/1-list/tasks/int-test.yml
