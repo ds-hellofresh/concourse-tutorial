@@ -1,12 +1,31 @@
+---
 resource_types    :
   - name          : pull-request
     type          : docker-image
     source        :
       repository  : jtarchie/pr
-
 resources:
   - name: super-app
     type: pull-request
     source:
       repo: ds-hellofresh/concourse-tutorial
-      access_token: {{ github_token }}
+      access_token: {{github_token}}
+jobs:
+  - name: test
+    plan:
+    - get: super-app
+      trigger: true
+    - aggregate:
+      - task: linting
+        file: super-app/tutorial/scenario.1/1-list/tasks/linting.yml
+      - task: unit
+        file: super-app/tutorial/scenario.1/1-list/tasks/unit.yml
+  - name: building
+    plan:
+    - get: super-app
+      trigger: true
+      passed: [ "test" ]
+    - task: build
+      file: super-app/tutorial/scenario.1/1-list/tasks/build.yml
+    - task: integeration test
+      file: super-app/tutorial/scenario.1/1-list/tasks/int-test.yml
